@@ -32,6 +32,7 @@ export default defineConfig({
                 ],
             },
             workbox: {
+                maximumFileSizeToCacheInBytes: 10 * 1024 * 1024,
                 // Models can be large; cache them explicitly so soil/disease
                 // scanning keeps working with zero connectivity after first load.
                 globPatterns: ["**/*.{js,css,html,svg,png,ico,json,bin,mp3}"],
