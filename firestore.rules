@@ -1,0 +1,54 @@
+rules_version = '2';
+
+// Spark (free) plan — no Cloud Functions, no Admin SDK anywhere. Every
+// collection here is written directly by the client, which is why these
+// rules do the enforcement work that used to be implicit in "only a
+// trusted server can write this." Anonymous auth is required for every
+// write so at least a stable, non-identifying device UID is attached
+// app-side (never stored in the document itself — see HARD CONSTRAINT
+// #5 in the project spec: no PII in the crowd-sourced collections).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAnonAuthed() {
+      return request.auth != null;
+    }
+
+    function hasOnlyKeys(data, allowedKeys) {
+      return data.keys().hasOnly(allowedKeys);
+    }
+
+    match /soilScans/{docId} {
+      allow create: if isAnonAuthed()
+        && hasOnlyKeys(request.resource.data, ["geoTile", "soilType", "confidence", "timestamp"])
+        && request.resource.data.geoTile is string
+        && request.resource.data.confidence is number;
+      allow read, update, delete: if false;
+    }
+
+    match /fabricationRequests/{docId} {
+      allow create: if isAnonAuthed()
+        && hasOnlyKeys(request.resource.data, ["geoTile", "shapeType", "objectType", "timestamp"]);
+      allow read, update, delete: if false;
+    }
+
+    match /growthUpdates/{docId} {
+      allow create: if isAnonAuthed();
+      allow read, update, delete: if false;
+    }
+
+    // Pre-aggregated, non-identifying tiles — written directly by the
+    // client (src/lib/firebase.ts -> recordSoilScanOnMap), one
+    // read-modify-write transaction per soil scan, instead of by a
+    // scheduled Cloud Function (Blaze-only — not available here).
+    // Publicly readable since a tile is just "soil type X seen N times
+    // in this ~1km area," never tied to any individual.
+    match /mapTiles/{docId} {
+      allow read: if true;
+      allow write: if isAnonAuthed()
+        && hasOnlyKeys(request.resource.data, ["geoTile", "soilCounts", "dominantSoilType", "scanCount", "updatedAt"])
+        && request.resource.data.scanCount is int
+        && request.resource.data.scanCount > 0;
+    }
+  }
+}

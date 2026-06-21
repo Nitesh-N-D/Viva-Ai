@@ -1,0 +1,49 @@
+{
+  "appName": "VIVA AI",
+  "greeting": "Welcome! Please allow location access.",
+  "locationPermissionReason": "We need your location for soil, rainfall, and crop recommendations.",
+  "home": {
+    "soilScan": "Soil Scan",
+    "diseaseScan": "Plant Disease Scan",
+    "mandiPrices": "Market Prices",
+    "soilMap": "Soil Map",
+    "makerMode": "Maker Help",
+    "myFarm": "My Crop"
+  },
+  "soilScan": {
+    "title": "Take a soil photo",
+    "instruction": "Photograph the field soil clearly",
+    "retake": "Retake photo, lighting wasn't clear",
+    "result": "This is {soilType} soil"
+  },
+  "cropRecommend": {
+    "title": "Top 3 crops",
+    "explain": "We recommend this crop"
+  },
+  "diseaseScan": {
+    "title": "Take a plant photo",
+    "healthy": "Plant looks healthy",
+    "remedyFound": "Organic remedy below"
+  },
+  "mandi": {
+    "title": "Nearest market prices",
+    "bestPrice": "Best price"
+  },
+  "maker": {
+    "title": "Maker Help",
+    "pressToSpeak": "Press to speak",
+    "listening": "Listening...",
+    "clarify": "How much load should this hold?",
+    "sketchReady": "Sketch ready",
+    "shareToMaker": "Share to fabricator"
+  },
+  "avatar": {
+    "concerned": "Is your crop still small? Check this tip",
+    "celebrating": "Great! Your crop has grown well"
+  },
+  "common": {
+    "speakScreen": "Read this screen aloud",
+    "offline": "No internet — showing saved data",
+    "back": "Back"
+  }
+}
