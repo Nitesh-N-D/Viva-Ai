@@ -15,7 +15,6 @@ export default defineConfig({
         "icons/*.svg",
         "icons/*.png",
         "audio/*.mp3",
-        "models/**/*",
       ],
       manifest: {
         name: "VIVA AI — Tamil Voice Farming & Fabrication Co-pilot",
